@@ -23,16 +23,19 @@ public class MainActivity extends AppCompatActivity {
 
         btn = findViewById(R.id.button);
 
+        //Create a Constraints for my WorkManager
         Constraints constraints = new Constraints
                 .Builder()
                 .setRequiresCharging(true)
                 .build();
 
+        //Create WorkRequest for my class MyWorker.class and add the constraint to my WortkRequest
         WorkRequest wr = new OneTimeWorkRequest
                 .Builder(MyWorker.class)
                 .setConstraints(constraints)
                 .build();
 
+        //Create an event of click on Button to execute the WorkManager
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Create a Observer of my wr to see the status of my wr in Toast
         WorkManager.getInstance(getApplicationContext())
                 .getWorkInfoByIdLiveData(wr.getId())
                 .observe(this, new Observer<WorkInfo>() {
